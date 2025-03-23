@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Ghor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Live<br>
+                    Your<br>
+                    Live<br>
+                    In<br>
+                    Your<br>
+                    way
+                </h1>
+            </div>
+            <div class="overlay"></div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="signin-link">
+                <span>I have account, </span>
+                <a href="/User_signin">Sign in</a>
+            </div>
+
+            <div class="signup-container">
+                <h2 class="signup-title">Sign up</h2>
+                
+                <button class="google-signin">
+                    <img src="../assets/google-icon.svg" alt="Google" class="google-icon">
+                    Continue with Google
+                </button>
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+                <form class="signup-form"  id="signup-form" >
+                    <div class="form-group">
+                        <label for="username">User name</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">email id</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Your password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <button type="submit" class="signup-button" id="submit">Sign up</button>
+                </form>
+
+                <div class="signin-prompt">
+                    <p>I have an account, <a href="/User_signin">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("signup-form").addEventListener("submit", async function (event) {
+            event.preventDefault(); // ❌ Prevent Default Form Submission
+
+            const Username = document.getElementById('username').value;
+            const Email = document.getElementById('email').value;
+            const Pass = document.getElementById('password').value;
+
+            console.log("Form Data:", { Username, Email, Pass }); // ✅ Debugging
+
+            try {
+                const response = await fetch("/user/signup", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        uname: Username,
+                        email: Email,
+                        password: Pass,
+                    })
+                });
+
+                const data = await response.json();
+                console.log("Success:", data);
+
+                if (response.ok) {
+                    if(data.message=="Signup successful"){
+                    alert("Signup Successful!");
+                    window.location.href = "/Login_profile";}
+                    else{
+                        alert("Email already in use");
+                    }
+                     
+                } else {
+                    alert(data.error || "Signup Failed!");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error occurred!");
+            }
+        });
+    });
+
+
+</script>
+</html> 

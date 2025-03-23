@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Listing Form</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1600') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            width: 400px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-top: 5px solid #ff6f61;
+            position: relative;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+        .form-container label {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            font-weight: 500;
+            color: #555;
+        }
+        .form-container input, 
+        .form-container select, 
+        .form-container textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            transition: 0.3s;
+        }
+        .form-container input:focus, 
+        .form-container select:focus, 
+        .form-container textarea:focus {
+            border-color: #ff6f61;
+            outline: none;
+            background: #fff;
+        }
+        .form-container input[type="submit"] {
+            background: #ff6f61;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+        .form-container input[type="submit"]:hover {
+            background: #e65a50;
+        }
+
+        /* Address Suggestion Box */
+        #autocomplete-suggestions {
+            position: absolute;
+            width: 100%;
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            background: white;
+            z-index: 100;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            text-align: left;
+        }
+        #autocomplete-suggestions li {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s ease-in-out;
+        }
+        #autocomplete-suggestions li:last-child {
+            border-bottom: none;
+        }
+        #autocomplete-suggestions li:hover {
+            background: #ff6f61;
+            color: white;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Property Listing</h2>
+        <form id="propertyForm">
+            <label for="title">Property Title:</label>
+            <input id="title" type="text" name="title" placeholder="Enter property title" required />
+
+            <label for="propertyType">Property Type:</label>
+            <select id="propertyType" name="propertyType" required>
+                <option value="PG">PG</option>
+                <option value="Flat">Flat</option>
+                <option value="Bungalow">Bungalow</option>
+                <option value="Villa">Villa</option>
+            </select>
+
+            <label for="bedrooms">Bedrooms:</label>
+            <select id="bedrooms" name="bedrooms" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5+</option>
+            </select>
+
+            <label for="bathrooms">Bathrooms:</label>
+            <select id="bathrooms" name="bathrooms" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4+</option>
+            </select>
+
+            <label for="city">City:</label>
+            <input id="city" type="text" name="city" placeholder="Enter city" required />
+
+            <label for="location">Location:</label>
+            <input id="autocomplete" type="text" name="location" placeholder="Start typing location" autocomplete="off" required />
+            <div id="autocomplete-suggestions"></div>
+
+            <label for="area">Property Area (sq ft):</label>
+            <input id="area" type="number" name="area" placeholder="Enter area in sq ft" required />
+
+            <label for="description">Property Description:</label>
+            <textarea id="description" name="description" placeholder="Enter property details" rows="5" required></textarea>
+
+            <input type="submit" value="Submit Property" />
+        </form>
+    </div>
+
+    <script>
+        const input = document.getElementById('autocomplete');
+        const suggestionsBox = document.getElementById('autocomplete-suggestions');
+
+        input.addEventListener('input', function () {
+            const query = input.value;
+
+            if (!query) {
+                suggestionsBox.style.display = 'none';
+                return;
+            }
+
+            fetch(`/api/address-suggestions?query=${encodeURIComponent(query)}`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": localStorage.getItem("token")
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'OK' && data.predictions.length > 0) {
+                    suggestionsBox.innerHTML = '';
+                    suggestionsBox.style.display = 'block';
+
+                    data.predictions.forEach(prediction => {
+                        const li = document.createElement('li');
+                        li.textContent = prediction.description;
+                        li.onclick = function () {
+                            input.value = prediction.description;
+                            suggestionsBox.style.display = 'none';
+                        };
+                        suggestionsBox.appendChild(li);
+                    });
+                } else {
+                    suggestionsBox.style.display = 'none';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching suggestions:', error);
+                suggestionsBox.style.display = 'none';
+            });
+        });
+
+        document.getElementById("propertyForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const propertyData = {
+                title: document.getElementById("title").value,
+                propertyType: document.getElementById("propertyType").value,
+                bedrooms: document.getElementById("bedrooms").value,
+                bathrooms: document.getElementById("bathrooms").value,
+                city: document.getElementById("city").value,
+                location: document.getElementById("autocomplete").value,
+                area: document.getElementById("area").value,
+                description: document.getElementById("description").value,
+            };
+
+            fetch('/listing/propertyinfo',{method:'POST', headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(propertyData),
+                })
+
+          //  localStorage.setItem("propertyData", JSON.stringify(propertyData));
+            window.location.href = "/photo/up"; // Change to your page
+        });
+    </script>
+</body>
+</html>

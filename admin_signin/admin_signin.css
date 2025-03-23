@@ -1,0 +1,247 @@
+:root {
+    --primary-color: #ff3e3e;
+    --text-color: #333;
+    --text-light: #666;
+    --text-dark: #000;
+    --background-light: #fff;
+    --border-color: #e0e0e0;
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --overlay-color: rgba(0, 0, 0, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Left Section Styles */
+.left-section {
+    flex: 1;
+    background-image: url('../assets/circuit-red.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--overlay-color);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    padding-left: 2rem;
+}
+
+.hero-title {
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Right Section Styles */
+.right-section {
+    flex: 1;
+    padding: 2rem 4rem;
+    background-color: var(--background-light);
+    display: flex;
+    flex-direction: column;
+}
+
+.sign-up-link {
+    text-align: right;
+    margin-bottom: 4rem;
+}
+
+.sign-up-link span {
+    color: var(--text-light);
+}
+
+.sign-up-link a {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 0.5rem;
+}
+
+.signin-container {
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.signin-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--text-dark);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.password-input {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+.eye-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.password-options {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+}
+
+.forgot-password {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.forgot-password:hover {
+    color: var(--primary-color);
+}
+
+.signin-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+.signin-button:hover {
+    background-color: #e63636;
+}
+
+.signup-prompt {
+    text-align: center;
+    margin-top: 2rem;
+    display: none;
+}
+
+.signup-prompt p {
+    color: var(--text-light);
+}
+
+.signup-prompt a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .right-section {
+        padding: 2rem;
+    }
+
+    .hero-title {
+        font-size: 4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-section {
+        display: none;
+    }
+
+    .right-section {
+        padding: 1.5rem;
+    }
+
+    .sign-up-link {
+        margin-bottom: 2rem;
+    }
+
+    .signup-prompt {
+        display: block;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #ff0000;
+        --text-color: #000000;
+        --text-light: #333333;
+        --border-color: #000000;
+    }
+} 

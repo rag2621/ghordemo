@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Images</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .upload-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            font-weight: 600;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #ff6f61;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        .custom-file-upload:hover {
+            background: #e65a50;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        #message {
+            margin-top: 10px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .uploaded-images {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .uploaded-images img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin: 8px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: 0.3s ease;
+        }
+
+        .uploaded-images img:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="upload-container">
+        <h2>Upload Images</h2>
+        <label class="custom-file-upload">
+            <input type="file" id="imageInput" multiple accept="image/*">
+            Choose Images
+        </label>
+        <button onclick="uploadImages()">Upload</button>
+        <p id="message"></p>
+    </div>
+
+    <div class="uploaded-images" id="uploadedImages"></div>
+
+    <script>
+        async function uploadImages() {
+            const fileInput = document.getElementById("imageInput");
+            if (!fileInput.files.length) {
+                alert("Please select at least one image.");
+                return;
+            }
+            if (fileInput.files.length > 5) {
+                alert("Cannot upload more than 5 photos");
+                return;
+            }
+
+            const uploadedImagesDiv = document.getElementById("uploadedImages");
+            uploadedImagesDiv.innerHTML = "";
+            document.getElementById("message").innerText = "Uploading...";
+
+            // Convert FileList to Array
+            const files = Array.from(fileInput.files);
+
+            // Upload Each Image One by One (Parallel Execution)
+            const uploadPromises = files.map(file => uploadSingleImage(file));
+
+            try {
+                const uploadedUrls = await Promise.all(uploadPromises);
+                document.getElementById("message").innerText = "All images uploaded successfully!";
+                
+                // Display All Uploaded Images
+                uploadedUrls.forEach(url => {
+                    const img = document.createElement("img");
+                    img.src = url;
+                    uploadedImagesDiv.appendChild(img);
+                });
+
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("message").innerText = "Upload failed.";
+            }
+        }
+
+        async function uploadSingleImage(file) {
+            const formData = new FormData();
+            formData.append("image", file);
+
+            const response = await fetch("/upload", { method: "POST", body: formData });
+            const data = await response.json();
+
+            if (!response.ok) throw new Error(data.error);
+            return data.imageUrl;
+        }
+    </script>
+
+</body>
+</html>

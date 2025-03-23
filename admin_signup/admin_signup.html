@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broker Sign Up - Ghor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin_signup.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Live<br>
+                    Your<br>
+                    Live<br>
+                    In<br>
+                    Your<br>
+                    way
+                </h1>
+            </div>
+            <div class="overlay"></div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="signin-link">
+                <span>I have account, </span>
+                <a href="/signin">Sign in</a>
+            </div>
+
+            <div class="signup-container">
+                <h2 class="signup-title">Sign up</h2>
+                
+                <form class="signup-form" action="/broker/signup" method="POST">
+                    <div class="form-group">
+                        <label for="dealer-name">Property dealer name</label>
+                        <input type="text" id="dealer-name" name="dealer-name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">email id</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company">company name</label>
+                        <input type="text" id="company" name="company" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Your password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <button type="submit" class="signup-button">Sign up</button>
+                </form>
+
+                <div class="signin-prompt">
+                    <p>I have an account, <a href="/signin">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

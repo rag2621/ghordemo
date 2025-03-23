@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghor - Your Real Estate Solution</title>
+    <link rel="stylesheet" href="./landingpage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <img src="assets/logo.png" alt="Ghor Logo" class="logo">
+            </div>
+            <div class="nav-links">
+                <a href="/landingpage" class="active">Home</a>
+                <a href="/listing">Properties</a>
+                <a href="#services">Services</a>
+                <a href="#about">About</a>
+            </div>
+            <div class="auth-buttons">
+                <button id="startListingBtn" class="start-listing-btn" onclick="redirectToListing()">Start Listing</button>
+                <div class="profile-icon" onclick="toggleDropdown()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <a href="/Login_profile">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        Login
+                    </a>
+                    <a href="/signup_profile">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <line x1="20" y1="8" x2="20" y2="14"></line>
+                            <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                        Sign Up
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const token = localStorage.getItem("token");
+    const startListingBtn = document.getElementById("startListingBtn");
+    const profileDropdown = document.getElementById("profileDropdown");
+
+    // Show Start Listing button only if token exists
+    if (token) {
+        startListingBtn.style.display = "inline-block";
+    }
+
+    // Toggle profile dropdown
+    document.querySelector(".profile-icon").addEventListener("click", function (event) {
+        event.stopPropagation();
+        profileDropdown.style.display = profileDropdown.style.display === "block" ? "none" : "block";
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", function (event) {
+        if (!profileDropdown.contains(event.target) && !event.target.closest(".profile-icon")) {
+            profileDropdown.style.display = "none";
+        }
+    });
+
+    // Redirect to listing page
+    startListingBtn.addEventListener("click", function () {
+        window.location.href = "/listinggg";
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("token");
+        const profileDropdown = document.getElementById("profileDropdown");
+
+        if (token) {
+            // Fetch user details (Replace with actual API call if needed)
+            const user = localStorage.getItem("username");
+
+            // Show username and logout button
+            profileDropdown.innerHTML = `
+                <span class="username">${user}</span>
+                <a href="#" id="logoutBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                        <polyline points="10 17 15 12 10 7"></polyline>
+                        <line x1="15" y1="12" x2="3" y2="12"></line>
+                    </svg>
+                    Logout
+                </a>
+            `;
+
+            // Logout function
+            document.getElementById("logoutBtn").addEventListener("click", (e) => {
+                e.preventDefault();
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                location.reload();
+            });
+        }
+    });
+
+    function toggleDropdown() {
+        const dropdown = document.getElementById('profileDropdown');
+        dropdown.classList.toggle('active');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('profileDropdown');
+        const profileIcon = event.target.closest('.profile-icon');
+
+        if (!profileIcon && dropdown.classList.contains('active')) {
+            dropdown.classList.remove('active');
+        }
+    });
+    </script>
+
+    <!-- Hero Section (Page 1) -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Find Your Dream Home</h1>
+                <p>Discover the perfect property that matches your lifestyle and preferences</p>
+                <form id="searchForm" onsubmit="handleSearch(event)" class="search-box">
+                    <div class="search-input-wrapper">
+                        <svg class="search-icon-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input 
+                            type="text" 
+                            id="searchInput"                             placeholder="Search location..."
+                            class="search-input"
+                            required
+                        >
+                    </div>
+                    <div class="search-divider"></div>
+                    <div class="search-type">
+                        <select id="propertyType" class="property-type-select">
+                            <option value="">Property Type</option>
+                            <option value="house">House</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="villa">Villa</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="search-btn" id="searchButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <a href="#properties">
+                <svg viewBox="0 0 24 24">
+                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <script>
+        function handleSearch(event) {
+            event.preventDefault();
+            
+            const searchInput = document.getElementById('searchInput');
+            const propertyType = document.getElementById('propertyType');
+            const searchButton = document.getElementById('searchButton');
+            
+            const searchTerm = searchInput.value.trim();
+            const selectedType = propertyType.value;
+            
+            if (!searchTerm) {
+                searchInput.focus();
+                return;
+            }
+
+            // Disable button and show loading state
+            searchButton.disabled = true;
+            const originalText = searchButton.innerHTML;
+            searchButton.innerHTML = '<span>Searching...</span>';
+
+            // Simulate search (replace with actual search logic)
+            setTimeout(() => {
+                console.log('Searching for:', searchTerm, 'Type:', selectedType);
+             //   window.location.href = `/properties?search=${encodeURIComponent(searchTerm)}&type=${encodeURIComponent(selectedType)}`;
+
+             fetch(`/properties?search=${encodeURIComponent(searchTerm)}&type=${encodeURIComponent(selectedType)}`).then((r)=>{
+                r.json().then((ans)=>{
+                    console.log(ans);
+                })
+             });
+                
+                // Reset button state (though page will likely reload)
+                searchButton.disabled = false;
+                searchButton.innerHTML = originalText;
+            }, 500);
+        }
+
+        // Add input validation and real-time feedback
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function(e) {
+            const searchButton = document.getElementById('searchButton');
+            if (e.target.value.trim()) {
+                searchButton.removeAttribute('disabled');
+            } else {
+                searchButton.setAttribute('disabled', 'true');
+            }
+        });
+    </script>
+
+    <!-- Featured Properties (Page 2) -->
+    <section id="properties" class="featured">
+        <div class="section-container">
+            <h2>Featured Properties</h2>
+            <div class="property-grid">
+                <!-- Property Card 1 -->
+                <a href="/listedproperty" class="property-card">
+                    <div class="property-image">
+                        <img src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg" alt="Luxury Family Home">
+                        <span class="tag">FOR SALE</span>
+                    </div>
+                    <div class="property-info">
+                        <h3>Luxury Family Home</h3>
+                        <p class="location">1800-1818 79th St</p>
+                        <p class="price">$395,000</p>
+                        <div class="property-stats">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                                4 Beds
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
+                                    <path d="M12 4v16"></path>
+                                </svg>
+                                2 Baths
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                </svg>
+                                400 sqft
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Property Card 2 -->
+                <a href="/listedproperty" class="property-card">
+                    <div class="property-image">
+                        <img src="./properti.png" alt="Skyper Pool Apartment">
+                        <span class="tag">FOR SALE</span>
+                    </div>
+                    <div class="property-info">
+                        <h3>Skyper Pool Apartment</h3>
+                        <p class="location">1020 Bloomingdale Ave</p>
+                        <p class="price">$280,000</p>
+                        <div class="property-stats">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                                4 Beds
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
+                                    <path d="M12 4v16"></path>
+                                </svg>
+                                2 Baths
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                </svg>
+                                450 sqft
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Property Card 3 -->
+                <a href="/listedproperty" class="property-card">
+                    <div class="property-image">
+                        <img src="./properti.png" alt="North Dillard Street">
+                        <span class="tag">FOR RENT</span>
+                    </div>
+                    <div class="property-info">
+                        <h3>North Dillard Street</h3>
+                        <p class="location">4330 Bell Shoals Rd</p>
+                        <p class="price">$250<span>/month</span></p>
+                        <div class="property-stats">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                                4 Beds
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
+                                    <path d="M12 4v16"></path>
+                                </svg>
+                                2 Baths
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                </svg>
+                                400 sqft
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Property Card 4 -->
+                <a href="/listedproperty" class="property-card">
+                    <div class="property-image">
+                        <img src="./properti.png" alt="Eaton Garth Penthouse">
+                        <span class="tag">FOR SALE</span>
+                    </div>
+                    <div class="property-info">
+                        <h3>Eaton Garth Penthouse</h3>
+                        <p class="location">7722 18th Ave, Brooklyn</p>
+                        <p class="price">$180,000</p>
+                        <div class="property-stats">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                                4 Beds
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
+                                    <path d="M12 4v16"></path>
+                                </svg>
+                                2 Baths
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                </svg>
+                                450 sqft
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Property Card 5 -->
+                <a href="/listedproperty" class="property-card">
+                    <div class="property-image">
+                        <img src="./properti.png" alt="New Apartment Nice View">
+                        <span class="tag">FOR RENT</span>
+                    </div>
+                    <div class="property-info">
+                        <h3>New Apartment Nice View</h3>
+                        <p class="location">42 Avenue O, Brooklyn</p>
+                        <p class="price">$850<span>/month</span></p>
+                        <div class="property-stats">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                                4 Beds
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
+                                    <path d="M12 4v16"></path>
+                                </svg>
+                                1 Bath
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                </svg>
+                                460 sqft
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Property Card 6 -->
+                <a href="/listedproperty" class="property-card">
+                    <div class="property-image">
+                        <img src="./properti.png" alt="Diamond Manor Apartment">
+                        <span class="tag">FOR SALE</span>
+                    </div>
+                    <div class="property-info">
+                        <h3>Diamond Manor Apartment</h3>
+                        <p class="location">7802 20th Ave, Brooklyn</p>
+                        <p class="price">$259,000</p>
+                        <div class="property-stats">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                                4 Beds
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
+                                    <path d="M12 4v16"></path>
+                                </svg>
+                                2 Baths
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                </svg>
+                                500 sqft
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <a href="/listing" class="view-all-btn">View All Properties</a>
+        </div>
+        <div class="scroll-indicator">
+            <a href="#services">
+                <svg viewBox="0 0 24 24">
+                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Services Section (Page 3) -->
+    <section id="services" class="services">
+        <div class="section-container">
+            <h2>Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Buy Property</h3>
+                    <p>Find your perfect home from our extensive property listings</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <h3>Sell Property</h3>
+                    <p>List your property and reach thousands of potential buyers</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                    <h3>Rent Property</h3>
+                    <p>Discover rental properties that suit your needs</p>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <a href="#about">
+                <svg viewBox="0 0 24 24">
+                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Why Choose Us (Page 4) -->
+    <section id="about" class="why-choose">
+        <div class="section-container">
+            <h2>Why Choose Us</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3>Trusted Platform</h3>
+                    <p>Years of experience in real estate market</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Verified Listings</h3>
+                    <p>All properties are verified by our team</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Round the clock customer support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About Us</h4>
+                    <p>Ghor is your trusted partner in finding the perfect property. We make real estate simple and accessible.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#properties">Properties</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p>Email: developing.ghor@gmail.com</p>
+                    <p>Phone: +91 77977 89073</p>
+                    <p>Address: khara, Punjab</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Ghor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Sign In - Ghor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin_signin.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Live<br>
+                    Your<br>
+                    Live<br>
+                    In<br>
+                    Your<br>
+                    way
+                </h1>
+            </div>
+            <div class="overlay"></div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="sign-up-link">
+                <span>Don't have an account? </span>
+                <a href="/signup">Sign up</a>
+            </div>
+
+            <div class="signin-container">
+                <h2 class="signin-title">Sign in</h2>
+                
+                <form class="signin-form" action="/admin/login" method="POST">
+                    <div class="form-group">
+                        <label for="username">User name or UID</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Your password</label>
+                        <div class="password-input">
+                            <input type="password" id="password" name="password" required>
+                            <button type="button" class="toggle-password" aria-label="Toggle password visibility">
+                                <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="password-options">
+                            <a href="/forgot-password" class="forgot-password">Forgot your password?</a>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="signin-button">Sign in</button>
+                </form>
+
+                <div class="signup-prompt">
+                    <p>Don't have an account? <a href="/signup">Sign up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.toggle-password').addEventListener('click', function() {
+            const passwordInput = document.querySelector('#password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        });
+    </script>
+</body>
+</html> 
